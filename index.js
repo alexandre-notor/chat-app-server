@@ -48,4 +48,4 @@ server.on("request", (req, res) => {
 })
 
 
-server.listen(process.ENV.PORT || 3010);
+server.listen(process.env.PORT || 3010);
