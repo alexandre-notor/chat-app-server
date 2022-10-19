@@ -36,6 +36,7 @@ function readMessage(index) {
         return JSON.stringify({ messages: data });
 
     } catch (e) {
+        console.log(e);
         console.log("Echec de le lecture des message");
         return JSON.stringify({ messages: [] });
     }
