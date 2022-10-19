@@ -1,32 +1,47 @@
-const http = require('http');
-const fs = require('fs');
+import { createServer } from 'http';
+import { connect, model, Schema } from 'mongoose';
 
-//function pour le sauvegarde des Messages
+await connect(process.env.MONGODB_URl + "/chat_app");
+
+
+const messageSchema = new Schema({
+    texte: String,
+    temps: {
+        type: Number,
+        default: () => parseInt(Date.now() / 1000)
+    }
+});
+
+const message = model('messages', messageSchema);
+
+//function pour la sauvegarde des Messages
 function saveMessage(data) {
     let [key, value] = data.toString('utf-8').replace(/\+/g, ' ').split('=');
     if (key === 'message') value = decodeURIComponent(value);
 
     try {
-        const oldMessage = JSON.parse(fs.readFileSync('./messages', 'utf-8'));
-        oldMessage.messages.push(value);
-        fs.writeFileSync('./messages', JSON.stringify(oldMessage))
+        const m = new message({ texte: value });
+        m.save();
+
     } catch (e) {
-        fs.writeFileSync('./messages', JSON.stringify({ messages: [value] }))
+        console.log("Echec de l'enresgistrement du message");
     }
 }
 
 // funtion pour la lecture des messages
 function readMessage(index) {
     try {
-        const data = JSON.parse(fs.readFileSync('./messages', 'utf-8'));
-        return JSON.stringify({ messages: data.messages.slice(index) });
+        const data = [];
+        message.find().skip(index).forEach(el => data.push(el.texte));
+        return JSON.stringify({ messages: data });
 
     } catch (e) {
+        console.log("Echec de le lecture des message");
         return JSON.stringify({ messages: [] });
     }
 }
 
-const server = http.createServer();
+const server = createServer();
 
 server.on("request", (req, res) => {
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS")
@@ -48,4 +63,4 @@ server.on("request", (req, res) => {
 })
 
 
-server.listen(process.env.PORT || 3010);
+server.listen(process.env.PORT || 3010, () => console.log("Server start at port" + (process.env.PORT || 3010)));
