@@ -29,10 +29,10 @@ function saveMessage(data) {
 }
 
 // funtion pour la lecture des messages
-function readMessage(index) {
+async function readMessage(index) {
     try {
         const data = [];
-        message.find().skip(index).forEach(el => data.push(el.texte));
+        (await message.find().skip(index).exec()).forEach(el => data.push(el.texte));
         return JSON.stringify({ messages: data });
 
     } catch (e) {
