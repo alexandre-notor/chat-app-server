@@ -1,0 +1,23 @@
+{
+  "name": "messaging-server",
+  "version": "1.0.0",
+  "description": "The server of the messaging app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandre-notor/messaging-app.git"
+  },
+  "keywords": [
+    "NodeJs",
+    "fs"
+  ],
+  "author": "Alexandre Annette Heritier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexandre-notor/messaging-app/issues"
+  },
+  "homepage": "https://github.com/alexandre-notor/messaging-app#readme"
+}
