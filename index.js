@@ -44,7 +44,7 @@ async function readMessage(index) {
 
 const server = createServer();
 
-server.on("request", (req, res) => {
+server.on("request", async (req, res) => {
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS")
     res.setHeader("Access-Control-Allow-Headers", "*")
     res.setHeader("Access-Control-Allow-Origin", "*")
@@ -56,7 +56,7 @@ server.on("request", (req, res) => {
         params = params ? parseInt(params) : 0;
         res.setHeader("Content-Type", "Application/json");
         res.statusCode = 200;
-        res.write(readMessage(params));
+        res.write(await readMessage(params));
     } else {
         res.statusCode = 400
     }
